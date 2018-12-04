@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="div1" style="position:fixed;width:50px;height:50px">小球</div>
+    <script src="05-03 02-tween.js"></script>
+    <script src="05-03 03-Animate.js"></script>
+    <script>
+      var div1 = document.getElementById("div1");
+      var animate = new Animate(div1);
+      var linear = tween.linear;
+      // animate.start("top", 200, 3000, linear);
+      animate.start("left", 200, 3000, linear);
+    </script>
+  </body>
+</html>

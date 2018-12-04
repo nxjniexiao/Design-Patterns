@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="loginBtn">登录</button>
+    <script>
+      /* 创建登录窗口 */
+      function LoginLayer() {
+        var div = document.createElement("div");
+        div.innerHTML = "登录界面";
+        div.style.cssText =
+          "position: fixed;left: 50%;top: 50%;margin: -100px 0 0 -250px;width: 500px;height: 200px;background-color: skyblue;text-align: center;line-height: 200px";
+        document.body.appendChild(div);
+        return div;
+      }
+      /* 代理 */
+      function proxySingleton(fn) {
+        var instance = null;
+        return function() {
+          if (!instance) {
+            instance = fn.apply(this, arguments);// instance = new fn();
+          }
+          return instance;
+        };
+      }
+      /* 单例模式 */
+      var SingleLoginLayer = proxySingleton(LoginLayer);
+      /* 给 loginBtn 添加 onclick 事件处理函数 */
+      var loginBtn = document.getElementById("loginBtn");
+      loginBtn.onclick = function() {
+        var loginLayer = new SingleLoginLayer();
+        console.log(loginLayer); // 登录界面div
+      };
+    </script>
+  </body>
+</html>
