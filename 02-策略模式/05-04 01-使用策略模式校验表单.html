@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    form input{
+      display: block
+    }
+  </style>
+</head>
+<body>
+  <form action="https:cn.bing.com" id="regForm">
+    <label for="username">用户名：</label>
+    <input type="text" name="username" id="uname"/>
+    <label for="pwd">密码：</label>
+    <input type="text" name="password" id="pwd" />
+    <label for="phoneNum">电话：</label>
+    <input type="text" name="phoneNumber" id="phoneNum" />
+    <input type="submit" value="提交"></input>
+  </form>
+  <script src="05-04 02-Validator.js"></script>
+  <script src="05-04 03-strategies.js"></script>
+  <script>
+    var regForm = document.getElementById('regForm');
+    function validate() {
+      var validator = new Validator();
+      validator.addRule(regForm.username, 'isNonEmpty', '用户名不能为空！');
+      validator.addRule(regForm.password, 'minLength:6', '密码长度不能少于6位！');
+      validator.addRule(regForm.phoneNumber, 'iskPhoneNumber', '手机号码格式不对！');
+      return validator.check();
+    }
+    regForm.onsubmit = function(){
+      var msg = validate();
+      if(msg){
+        alert(msg);// 弹窗显示错误信息
+        return false;// 阻止默认事件
+      }
+    }
+  </script>
+</body>
+</html>
