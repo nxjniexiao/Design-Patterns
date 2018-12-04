@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 创建唯一的 div 节点 */
+      var createSingleDiv = (function() {
+        var instance = null;
+        var createSingleDiv = function(html) {
+          if (!instance) {
+            this.html = html;
+            this.init();
+            instance = this;
+          }
+          return instance;// 返回的对象有两个属性：html 和 init()
+        };
+        // 初始化方法：创建 div
+        createSingleDiv.prototype.init = function() {
+          var html = this.html;
+          var div = document.createElement("div");
+          div.innerHTML = html;
+          document.body.appendChild(div);
+        };
+        return createSingleDiv;
+      })();
+      // 测试
+      var div1 = new createSingleDiv("div1");
+      var div2 = new createSingleDiv("div2");
+      console.log(div1);
+      console.log(div2);
+      console.log(div1 === div2);
+    </script>
+  </body>
+</html>

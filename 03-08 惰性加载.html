@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var addEvent = function(elm, type, handler) {
+        // 第一次调用会执行判断语句
+        if (window.addEventListener) {
+          addEvent = function(elm, type, handler) {
+            elm.addEventListener(type, handler, false); // false: 冒泡阶段调用 handler
+          };
+        } else if (window.attachEvent) {
+          addEvent = function(elm, type, handler) {
+            elm.attachEvent("on" + type, handler);
+          };
+        }
+        addEvent(elm, type, handler); // 执行函数
+      };
+    </script>
+  </body>
+</html>

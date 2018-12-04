@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function throttle(fn, interval) {
+        var fn = fn;// 保存传入函数的引用
+        var firstTime = true;
+        var timer; // 定时器
+        return function() {
+          var _this = this;
+          var args = arguments;
+          if (firstTime) {
+            // 首次执行，直接调用
+            fn.apply(this, arguments);
+            return (firstTime = false);
+          }
+          if(timer){
+            // 定时器存在
+            return false;
+          }
+          timer = setTimeout(function() {
+            clearTimeout(timer);// 取消定时器
+            timer = null;
+            fn.apply(_this, args);
+          }, interval || 500);
+        };
+      }
+      // onresize
+      // window.onresize = function() {
+      //   console.log("resize");
+      // };
+      window.onresize = throttle(function() {
+        console.log("resize");
+      }, 500);
+    </script>
+  </body>
+</html>

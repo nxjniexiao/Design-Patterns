@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var arr = [];
+      for (var i = 0; i < 1000; i++) {
+        arr.push(i);
+      }
+      var rederFriendList = function(arr) {
+        for (var i = 0, len = arr.length; i < len; i++) {
+          var div = document.createElement("div");
+          div.innerHTML = arr[i];
+          document.body.appendChild(div);
+        }
+      };
+      // console.time("rederFriendList");
+      // rederFriendList(arr);
+      // console.timeEnd("rederFriendList");
+
+      // 分时函数
+      var timeChunk = function(fn, singleCount) {
+        var fn = fn;
+        var singleCount = singleCount;
+        return function(arr) {
+          var arr = arr; // 需要被执行的长数组
+          var singleArr; // 单次执行的短数组
+
+          /* 从原数组中取出单次执行所需要的短数组 */
+          var singleRun = function() {
+            var len = arr.length;
+            if (len > singleCount) {
+              singleArr = arr.splice(0, singleCount);
+            } else {
+              singleArr = arr.splice(0, len);
+            }
+            fn(singleArr);
+          };
+          // 定时器
+          timer = setInterval(function() {
+            if (!arr.length) {
+              // arr 为空
+              clearInterval(timer); // 取消定时器
+              console.timeEnd("rederWithTimeChunk");
+            }
+            singleRun();
+          }, 200);
+        };
+      };
+      var rederWithTimeChunk = timeChunk(rederFriendList, 100);
+      console.time("rederWithTimeChunk");
+      rederWithTimeChunk(arr);
+      // console.timeEnd("rederWithTimeChunk");
+    </script>
+  </body>
+</html>

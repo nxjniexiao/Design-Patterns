@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 创建普通的 div 节点 */
+      var createDiv = function(html) {
+        this.html = html;
+        this.init();
+      };
+      createDiv.prototype.init = function() {
+        var div = document.createElement("div");
+        div.innerHTML = this.html;
+        document.body.appendChild(div);
+      };
+      /* 代理类 */
+      var proxySingleton = function(fn) {
+        var instance = null;
+        return function(html) {
+          if (!instance) {
+            instance = new fn(html);
+          }
+          return instance;
+        };
+      };
+      var CreateSingleDiv = proxySingleton(createDiv);
+      // 测试
+      var div1 = new CreateSingleDiv("div1");
+      var div2 = new CreateSingleDiv("div2");
+      console.log(div1);
+      console.log(div2);
+      console.log(div1 === div2);// true
+    </script>
+  </body>
+</html>
