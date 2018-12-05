@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // var myImage = (function() {
+      //   var doc = document;
+      //   var img = doc.createElement("img");
+      //   doc.body.appendChild(img);
+      //   return {
+      //     setSrc: function(src) {
+      //       img.src = src;
+      //     }
+      //   };
+      // })();
+      /* 代理 */
+      // var proxyImage = (function() {
+      //   var tempImg = new Image();
+      //   tempImg.src = src;
+      //   tempImg.onload = function() {
+      //     myImage.setSrc(this.src);
+      //   };
+      //   return {
+      //     setSrc: function(src) {
+      //       tempImg.src = src;
+      //     }
+      //   };
+      // })();
+      function MyImage() {
+        this.imgDom = document.createElement("img");
+      }
+      MyImage.prototype.setSrc = function(src) {
+        this.imgDom.src = src;
+      };
+      /* 代理 (和本体接口保持一致) */
+      function ProxyImage(MyImage) {
+        var myImage = new MyImage(); // {imgDom: Object, setSrc: Function}
+        var retFunc = function() {
+          this.imgDom = myImage.imgDom;
+          this.image = new Image();
+          this.image.onload = function() {
+            myImage.setSrc(this.src);
+          };
+        };
+        retFunc.prototype.setSrc = function(src) {
+          this.image.src = src;
+        };
+        return retFunc;
+      }
+      var src =
+        "https://desk-fd.zol-img.com.cn/t_s1440x900c5/g5/M00/01/0F/ChMkJ1bKwiuIJ5nGAA4iXFfREQwAALGjwOycOkADiJ0227.jpg";
+      
+      /* 常规模式: 网速慢时，图片一部分一部分加载 */
+      // var img = new MyImage();
+
+      /* 代理模式: 网速慢时，图片加载完成后再显示 */
+      var MyImageProxy = ProxyImage(MyImage);
+      var img = new MyImageProxy();
+
+      // HTML 中插入图片
+      document.body.appendChild(img.imgDom);
+      img.setSrc(src);
+    </script>
+  </body>
+</html>
