@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
-  <form action="https:cn.bing.com" id="regForm">
+  <form action="https:cn.bing.com" id="regForm" target="_blank">
     <label for="username">用户名：</label>
     <input type="text" name="username" id="uname"/>
     <label for="pwd">密码：</label>
@@ -21,15 +21,22 @@
     <input type="text" name="phoneNumber" id="phoneNum" />
     <input type="submit" value="提交"></input>
   </form>
-  <script src="05-04 02-Validator.js"></script>
-  <script src="05-04 03-strategies.js"></script>
+  <script src="05-05 02-Validator.js"></script>
+  <script src="05-05 03-strategies.js"></script>
   <script>
     var regForm = document.getElementById('regForm');
     function validate() {
       var validator = new Validator();
-      validator.addRule(regForm.username, 'isNonEmpty', '用户名不能为空！');
-      validator.addRule(regForm.password, 'minLength:6', '密码长度不能少于6位！');
-      validator.addRule(regForm.phoneNumber, 'isPhoneNumber', '手机号码格式不对！');
+      validator.addRule(regForm.username, [
+        {strategy:'minLength:6', msg:'用户名长度不能少于6位！'},
+        {strategy:'isNonEmpty', msg:'用户名不能为空！'}, 
+      ]);
+      validator.addRule(regForm.password, [
+        {strategy:'minLength:6', msg:'密码长度不能少于6位！'}
+      ]);
+      validator.addRule(regForm.phoneNumber, [
+        {strategy:'isPhoneNumber', msg:'手机号码格式不对！'}
+      ]);
       return validator.check();
     }
     regForm.onsubmit = function(){
