@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+      .draggable {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background-color: tomato;
+      }
+    </style>
+    <title>Drag Drop</title>
+  </head>
+  <body>
+    <div id="status"></div>
+    <div class="draggable">
+      div1
+      <div class="draggable">div1-1</div>
+    </div>
+    <div class="draggable">div2</div>
+    <script src="./event-target.js"></script>
+    <script src="./drag-drop.js"></script>
+    <script>
+      DragDrop.enable();
+      function handleDrag(event) {
+        var statusDom = document.getElementById('status');
+        statusDom.innerText = event.type + ': x = ' + event.x + ' | y = ' + event.y;
+      }
+      DragDrop.addHandler('drag-start', handleDrag);
+      DragDrop.addHandler('draging', handleDrag);
+      DragDrop.addHandler('drag-end', handleDrag);
+    </script>
+  </body>
+</html>
