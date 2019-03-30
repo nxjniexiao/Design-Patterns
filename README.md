@@ -1,1 +1,3 @@
-# Design-Patterns
+# 设计模式
+
+本库为《JavaScript设计模式与开发实践》一书的学习笔记。

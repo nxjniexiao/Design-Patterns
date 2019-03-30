@@ -40,3 +40,15 @@ Chain.prototype.handleRequest = function() {
   return ret;
 };
 ```
+
+#### 2.3 异步职责链
+
+给 Chain 的原型添加方法:
+```js
+// 异步职责链，手动把请求传递给职责链中的下一个节点
+Chain.prototype.next = function() {
+  return (
+    this.nextNode && this.nextNode.handleRequest.apply(this.nextNode, arguments)
+  );
+};
+```
